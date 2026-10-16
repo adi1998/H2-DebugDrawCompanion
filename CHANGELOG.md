@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Move logs to DEBUG
+
 ## [0.0.1] - 2026-10-14
 
 - First version of the mod!
