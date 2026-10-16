@@ -21,15 +21,15 @@ for _, filename in ipairs(projectile_files) do
     sjson.hook(rom.path.combine(rom.paths.Content(), "Game\\Projectiles\\"..filename), function (data)
         for _, projectile in ipairs(data.Projectiles) do
             if projectile.Thing and (projectile.Thing.Graphic == "null") then
-                rom.log.debug("Patching Thing.Graphic for", projectile.Name)
+                mod.DebugPrint(4, "Patching Thing.Graphic for", projectile.Name)
                 projectile.Thing.Graphic = "Blank"
             end
             if projectile.DeathFx == "null" then
-                rom.log.debug("Patching DeathFx for", projectile.Name)
+                mod.DebugPrint(4, "Patching DeathFx for", projectile.Name)
                 projectile.DeathFx = "Blank"
             end
             if projectile.DetonateFx == "null" then
-                rom.log.debug("Patching DetonateFx for", projectile.Name)
+                mod.DebugPrint(4, "Patching DetonateFx for", projectile.Name)
                 projectile.DetonateFx = "Blank"
             end
         end

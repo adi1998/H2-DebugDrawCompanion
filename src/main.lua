@@ -35,9 +35,14 @@ reload = mods['SGG_Modding-ReLoad']
 ---@module 'SGG_Modding-Chalk'
 chalk = mods["SGG_Modding-Chalk"]
 
+config = chalk.auto "config.lua"
+
 local function on_ready()
     mod = modutil.mod.Mod.Register(_PLUGIN.guid)
+
+    import "utils.lua"
     import "sjson.lua"
+
     rom.inputs.on_key_pressed{"Alt N", Name = "ToggleDrawExtents", function ()
         if rom.extent then
             rom.extent.toggle()
