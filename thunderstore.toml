@@ -4,7 +4,7 @@ schemaVersion = "0.0.1"
 [package]
 namespace = "zerp"
 name = "DebugDrawCompanion"
-versionNumber = "0.0.2"
+versionNumber = "0.1.0"
 description = "Workaround to fix some projectiles' debug draw capabilities plus extras."
 websiteUrl = "https://github.com/adi1998/H2-DebugDrawCompanion"
 containsNsfwContent = false
