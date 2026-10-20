@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Add some missing targets to known targets list.
+
 ## [0.2.1] - 2026-10-20
 
 - Remove log spam
