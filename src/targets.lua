@@ -44,16 +44,13 @@ local target_obstacles = game.ToLookup({
 function mod.SetTargetVisibility(visibility)
     for obstacle, _ in pairs(target_obstacles) do
         local ids = game.GetIdsByType({ Name = obstacle })
-        for key, id in pairs(ids) do
-            game.SetAlpha({ Fraction = (visibility and 1) or 0, Id = id})
-        end
+        game.SetAlpha({ Fraction = (visibility and 1) or 0, Ids = ids})
     end
 end
 
 game.OnSpawn{
     function (triggerArgs)
         if triggerArgs.name and target_obstacles[triggerArgs.name] then
-            print(triggerArgs.name)
             game.SetAlpha({ Fraction = (config.target_visibility and 1) or 0, Id = triggerArgs.triggeredById})
         end
     end

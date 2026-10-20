@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Remove log spam
+
 ## [0.2.0] - 2026-10-20
 
 - Fix some targets not respecting the target visibility config.
