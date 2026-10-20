@@ -173,6 +173,10 @@ local keycodeMap = {
 
 local modifierKeys = { "None", "Alt", "Ctrl", "Shift" }
 
+local function drawMenu()
+    
+end
+
 rom.gui.add_imgui(function()
     if rom.ImGui.Begin("Debug Draw Companion") then
         drawMenu()
@@ -187,7 +191,7 @@ rom.gui.add_to_menu_bar(function()
     end
 end)
 
-function mod.setBind()
+function mod.setExtentBind()
     if mod.extent_handle then
         rom.inputs.remove_on_key_pressed(mod.extent_handle)
     end
@@ -199,26 +203,31 @@ function mod.setBind()
     end}
 end
 
-function drawMenu()
-    local value, selected
-    value, selected = rom.ImGui.Checkbox("Show invisible targets", config.target_visibility)
-    if selected then
-        config.target_visibility = value
-        mod.SetTargetVisibility(value)
+function mod.setTargetBind()
+    if mod.target_handle then
+        print("removing old handle")
+        rom.inputs.remove_on_key_pressed(mod.target_handle)
     end
 
-    rom.ImGui.Separator()
+    mod.target_handle = rom.inputs.on_key_pressed{config.toggle_target_modifier.." "..config.toggle_target_key, Name = "ToggleDrawTargets", function ()
+        config.target_visibility = not config.target_visibility
+        mod.SetTargetVisibility(config.target_visibility)
+    end}
+end
 
-    rom.ImGui.Text("Configure \"Toggle Extents\" keybind")
+local function drawHotkey(header, modifierPath, keyPath, base)
+    local selected, value
+    rom.ImGui.Text(header)
 
     rom.ImGui.Text("Modifier            Key")
 
     rom.ImGui.PushItemWidth(100)
-    if rom.ImGui.BeginCombo("###extentmodifier", config.toggle_extent_modifier) then
+    if rom.ImGui.BeginCombo("###"..modifierPath, modutil.mod.Path.Get(modifierPath, base)) then
         for _, option in ipairs(modifierKeys) do
-            if rom.ImGui.Selectable(option, (option == config.toggle_extent_modifier)) then
-                if option ~= config.toggle_extent_modifier then
-                    config.toggle_extent_modifier = option
+            if rom.ImGui.Selectable(option, ( option == modutil.mod.Path.Get(modifierPath, base) )) then
+                if option ~= modutil.mod.Path.Get(modifierPath, base) then
+                    -- config.toggle_extent_modifier = option
+                    modutil.mod.Path.Set(modifierPath, option, base)
                 end
                 rom.ImGui.SetItemDefaultFocus()
             end
@@ -230,17 +239,33 @@ function drawMenu()
     rom.ImGui.SameLine()
 
     rom.ImGui.PushItemWidth(130)
-    selected, value = rom.ImGui.Hotkey("###extentkey", keycodeMap[config.toggle_extent_key])
+    selected, value = rom.ImGui.Hotkey("###"..keyPath, keycodeMap[modutil.mod.Path.Get(keyPath, base)])
     if selected then
         local key = keycodeMap[value]
-        if key ~= config.toggle_extent_key then
-            config.toggle_extent_key = key
+        if key ~= modutil.mod.Path.Get(keyPath, base) then
+            modutil.mod.Path.Set(keyPath, key, base)
         end
     end
     rom.ImGui.PopItemWidth()
+end
+
+drawMenu = function()
+    local value, selected
+    value, selected = rom.ImGui.Checkbox("Show invisible targets", config.target_visibility)
+    if selected then
+        config.target_visibility = value
+        mod.SetTargetVisibility(value)
+    end
+
+    rom.ImGui.Separator()
+
+    drawHotkey("Configure \"Toggle Extent\" keybind", "toggle_extent_modifier", "toggle_extent_key", config)
+    rom.ImGui.Separator()
+    drawHotkey("Configure \"Toggle Target\" keybind", "toggle_target_modifier", "toggle_target_key", config)
 
     selected = rom.ImGui.Button("Apply")
     if selected then
-        mod.setBind()
+        mod.setTargetBind()
+        mod.setExtentBind()
     end
 end

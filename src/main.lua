@@ -47,7 +47,8 @@ end
 
 local function on_reload()
     import "imgui.lua"
-    mod.setBind()
+    mod.setExtentBind()
+    mod.setTargetBind()
 end
 
 local loader = reload.auto_single()
