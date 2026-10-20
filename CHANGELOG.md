@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 - Fix some targets not respecting the target visibility config.
+- Add keybind to toggle target visibility.
 
 ## [0.1.0] - 2026-10-20
 
