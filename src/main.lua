@@ -41,7 +41,7 @@ local function on_ready()
     mod = modutil.mod.Mod.Register(_PLUGIN.guid)
 
     import "utils.lua"
-    import "sjson.lua"
+    import "projectile_fix.lua"
     import "targets.lua"
 end
 

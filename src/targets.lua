@@ -1,9 +1,9 @@
 local devObstaclesFileName = rom.path.combine(rom.paths.Content(), "Game\\Obstacles\\1_DevObstacles.sjson")
 
 sjson.hook(devObstaclesFileName, function (data)
-    local obstacle_map = {
-        InvisibleTarget = true
-    }
+    -- local obstacle_map = {
+    --     InvisibleTarget = true
+    -- }
     for _, value in ipairs(data.Obstacles) do
         -- if obstacle_map[value.Name] and (not value.Thing or (value.Thing.Invisible ~= false)) then
         --     obstacle_map[value.Name] = true
@@ -11,12 +11,13 @@ sjson.hook(devObstaclesFileName, function (data)
         -- end
         if value.Name == "InvisibleTarget" then
             value.Thing.Invisible = false
+            value.Thing.TriggerOnSpawn = true
         end
     end
 end)
 
 -- baked in due to lua state reset
-local target_obstacles = {
+local target_obstacles = game.ToLookup({
     "InvisibleTarget",
     "InvisibleTargetNoTimeModifier",
     "CameraPoint",
@@ -38,20 +39,22 @@ local target_obstacles = {
     "CameraIntroEnd",
     "CameraClamp",
     "VisibleTarget",
-}
+})
 
 function mod.SetTargetVisibility(visibility)
-    for index, obstacle in ipairs(target_obstacles) do
+    for obstacle, _ in pairs(target_obstacles) do
         local ids = game.GetIdsByType({ Name = obstacle })
         for key, id in pairs(ids) do
-            print(obstacle, id)
             game.SetAlpha({ Fraction = (visibility and 1) or 0, Id = id})
         end
     end
 end
 
-game.OnAnyLoad{
-    function ()
-        mod.SetTargetVisibility(config.target_visibility)
+game.OnSpawn{
+    function (triggerArgs)
+        if triggerArgs.name and target_obstacles[triggerArgs.name] then
+            print(triggerArgs.name)
+            game.SetAlpha({ Fraction = (config.target_visibility and 1) or 0, Id = triggerArgs.triggeredById})
+        end
     end
 }

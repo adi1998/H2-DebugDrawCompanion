@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Fix some targets not respecting the target visibility config.
+
 ## [0.1.0] - 2026-10-20
 
 - Add option to make invisbile targets visible.
