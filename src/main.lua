@@ -42,15 +42,12 @@ local function on_ready()
 
     import "utils.lua"
     import "sjson.lua"
-
-    rom.inputs.on_key_pressed{"Alt N", Name = "ToggleDrawExtents", function ()
-        if rom.extent then
-            rom.extent.toggle()
-        end
-    end}
+    import "targets.lua"
 end
 
 local function on_reload()
+    import "imgui.lua"
+    mod.setBind()
 end
 
 local loader = reload.auto_single()

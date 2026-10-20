@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- Add option to make invisbile targets visible.
+- Add config for toggle extent keybind.
+
 ## [0.0.2] - 2026-10-16
 
 - Move logs to DEBUG

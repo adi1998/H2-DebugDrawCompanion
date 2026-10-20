@@ -1,6 +1,10 @@
 ## Debug Draw Companion
 
-Workaround to fix some projectiles' debug draw capabilities. Adds a hotkey to toggle debug extents, Alt-N.
+Includes a workaround to fix some projectiles' debug draw capabilities. 
+
+Allows invisible targets to be visible.
+
+Adds a hotkey to toggle debug extents, Alt-N. Configurable in the Imgui menu.
 
 ## Installation
 
